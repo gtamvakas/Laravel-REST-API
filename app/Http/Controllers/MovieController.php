@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -15,7 +14,10 @@ class MovieController extends Controller
 {
     //TODO ADD CACHING
     public function index(){
-        return MovieResource::collection(Movie::all());
+        return (MovieResource::collection(Movie::all()))
+        ->response()
+        ->header('Cache-Control', 'private, max-age=30')
+        ->setStatusCode(200);
     }
 
 
